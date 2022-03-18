@@ -6,7 +6,7 @@ import axios from 'axios'
 import { PartList } from './list'
 
 // import styles
-// import './../styles/part.css'
+import './../styles/styles.scss'
 
 // create Part component
 export const Main = () => {
@@ -92,16 +92,20 @@ export const Main = () => {
 
     // update part count
     const handlePartUpdateCount = (id: number, name: string, count: number) => {
-        // send PUT request to 'parts/update' endpoint
-        axios
-            .put('http://localhost:4001/parts/update', { id: id, count: count })
-            .then(() => {
-                console.log(`Count of ${name} updated.`)
+        if (count > 0) {
+            // send PUT request to 'parts/update' endpoint
+            axios
+                .put('http://localhost:4001/parts/update', { id: id, count: count })
+                .then(() => {
+                    console.log(`Count of ${name} updated.`)
 
-                // fetch all parts to refresh the parts on the part list
-                fetchParts()
-            })
-            .catch(error => console.error(`There was an error updating the count of ${name}: ${error}`))
+                    // fetch all parts to refresh the parts on the part list
+                    fetchParts()
+                })
+                .catch(error => console.error(`There was an error updating the count of ${name}: ${error}`))
+        } else {
+            handlePartRemove(id, name);
+        }
     }
 
     // reset part list (remove all parts)
@@ -116,40 +120,34 @@ export const Main = () => {
     }
 
     return (
-        <div className="part-list-wrapper">
-            {/* Form for creating new part */}
-            <div className="part-list-form">
-                <div className="form-wrapper" onSubmit={handlePartSubmit}>
-                    <div className="form-row">
-                        <fieldset>
-                            <label className="form-label" htmlFor="name">Enter name:</label>
-                            <input className="form-input" type="text" id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
-                        </fieldset>
+        <main>
+            {/* form for creating new part */}
+            <form onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
+                <fieldset>
+                    <label className="form-label" htmlFor="name">Enter name:</label>
+                    <input className="form-input" type="text" required id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
+                </fieldset>
 
-                        <fieldset>
-                            <label className="form-label" htmlFor="count">Enter count:</label>
-                            <input className="form-input" type="number" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
-                        </fieldset>
-                    </div>
+                <fieldset>
+                    <label className="form-label" htmlFor="count">Enter count:</label>
+                    <input className="form-input" type="number" min="0" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
+                </fieldset>
 
-                    <div className="form-row">
-                        <fieldset>
-                            <label className="form-label" htmlFor="url">Enter Octopart URL:</label>
-                            <input className="form-input" type="url" id="url" name="url" value={url} onChange={(e) => setURL(e.currentTarget.value)} />
-                        </fieldset>
-                    </div>
-                </div>
+                <fieldset>
+                    <label className="form-label" htmlFor="url">Enter Octopart URL:</label>
+                    <input className="form-input" type="url" id="url" name="url" value={url} onChange={(e) => setURL(e.currentTarget.value)} />
+                </fieldset>
 
-                <button onClick={handlePartSubmit} className="btn btn-add">Add the part</button>
-            </div>
+                <button type="submit" className="btn-add">Add the part</button>
+            </form>
 
-            {/* Render part list component */}
-            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount}/>
+            {/* render part list component */}
+            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} />
 
-            {/* Show reset button if list contains at least one part */}
+            {/* show reset button if list contains at least one part */}
             {parts.length > 0 && (
-                <button className="btn btn-reset" onClick={handleListReset}>Reset parts list.</button>
+                <button className="btn-reset" onClick={handleListReset}>Reset parts list.</button>
             )}
-        </div>
+        </main>
     )
 }

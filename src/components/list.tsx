@@ -5,7 +5,7 @@ import React from 'react'
 import { PartsListRow } from './list-row'
 
 // import styles
-// import './../styles/list.css'
+import './../styles/styles.scss'
 
 // create interfaces
 interface PartUI {
@@ -37,9 +37,10 @@ export const PartList = (props: PartListUI) => {
 
             <th className="table-head-item">Count</th>
 
+            <th className="table-head-item" />
+
             <th className="table-head-item">URL</th>
 
-            <th className="table-head-item" />
           </tr>
         </thead>
 
@@ -57,7 +58,7 @@ export const PartList = (props: PartListUI) => {
             )
           ) : (
             <tr className="table-row">
-              <td className="table-item" style={{ textAlign: 'center' }} colSpan={6}>There are no parts to show. Create one!</td>
+              <td className="table-item" style={{ textAlign: 'center' }} colSpan={6}>There are no parts to show.</td>
             </tr>
           )
         }

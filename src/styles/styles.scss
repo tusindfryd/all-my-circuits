@@ -1,0 +1,47 @@
+$font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$primary-color: #333;
+
+body {
+    width: 100vw;
+    margin: 0;
+    font: 100% $font-stack;
+    color: $primary-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    main {
+        button {
+            font: 100% $font-stack;
+        }
+        .btn-remove {
+            width: 100%;
+        }
+
+        display: flex;
+        flex-direction: column;
+        table {
+            min-width: 33vw;
+            @media (orientation: landscape) {
+                max-width: 33vw;
+            }
+            th {
+                text-align: unset;
+            }
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            
+            fieldset {
+                display: flex;
+                margin: 0;
+                justify-content: space-between;
+                gap: 10px;
+            }
+            input: {
+                margin-left: 10px;
+            }
+        }
+    }
+}

@@ -30,24 +30,25 @@ export const PartsListRow = (props: PartsListRowUI) => (
         </td>
 
         <td className="table-item">
-            {props.part.url}
-        </td>
-
-        <td className="table-item">
             <button
-                className="btn btn-plus"
+                className="btn-plus"
                 onClick={() => props.handlePartUpdateCount(props.part.id, props.part.name, Number(props.part.count) + 1)}>
                 +
             </button>
             <button
-                className="btn btn-minus"
+                className="btn-minus"
                 onClick={() => props.handlePartUpdateCount(props.part.id, props.part.name, Number(props.part.count) - 1)}>
                 -
             </button>
         </td>
+
+        <td className="table-item">
+            {props.part.url}
+        </td>
+        
         <td className="table-item">
             <button
-                className="btn btn-remove"
+                className="btn-remove"
                 onClick={() => props.handlePartRemove(props.part.id, props.part.name)}>
                 Remove part
             </button>
