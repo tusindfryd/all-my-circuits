@@ -123,22 +123,27 @@ export const Main = () => {
         <main>
             {/* form for creating new part */}
             <form onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
+                <div className="row">
+                    <div className="col">
+                        <fieldset>
+                            <label className="form-label" htmlFor="name">Name:</label>
+                            <input className="form-control" type="text" required id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
+                        </fieldset>
+                    </div>
+                    <div className="col col-3">
+                        <fieldset>
+                            <label className="form-label" htmlFor="count">Count:</label>
+                            <input className="form-control" type="number" min="1" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
+                        </fieldset>
+                    </div>
+                </div>
                 <fieldset>
-                    <label className="form-label" htmlFor="name">Enter name:</label>
-                    <input className="form-input" type="text" required id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
+                    <label className="form-label" htmlFor="url">Octopart URL:</label>
+                    <input className="form-control" type="url" id="url" name="url" value={url} onChange={(e) => setURL(e.currentTarget.value)} />
                 </fieldset>
 
-                <fieldset>
-                    <label className="form-label" htmlFor="count">Enter count:</label>
-                    <input className="form-input" type="number" min="0" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
-                </fieldset>
+                <button type="submit" className="my-3 btn btn-primary">Add the part</button>
 
-                <fieldset>
-                    <label className="form-label" htmlFor="url">Enter Octopart URL:</label>
-                    <input className="form-input" type="url" id="url" name="url" value={url} onChange={(e) => setURL(e.currentTarget.value)} />
-                </fieldset>
-
-                <button type="submit" className="btn-add">Add the part</button>
             </form>
 
             {/* render part list component */}
@@ -146,7 +151,7 @@ export const Main = () => {
 
             {/* show reset button if list contains at least one part */}
             {parts.length > 0 && (
-                <button className="btn-reset" onClick={handleListReset}>Reset parts list.</button>
+                <button className="btn btn-warning" onClick={handleListReset}>Remove all elements</button>
             )}
         </main>
     )

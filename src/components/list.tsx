@@ -25,13 +25,17 @@ interface PartListUI {
 // create PartList component
 export const PartList = (props: PartListUI) => {
   // show loading message
-  if (props.loading) return <p>Loading...</p>
-
-  return (
-    <table className="table">
+  if (props.loading) {
+    return (
+      <p>Loading...</p>
+    )
+  }
+  else if (props.parts.length > 0) {
+    return (
+      <table className="table table-hover">
         <thead>
           <tr>
-            <th className="table-head-item" />
+            <th className="table-head-item"> # </th>
 
             <th className="table-head-item">Name</th>
 
@@ -41,28 +45,32 @@ export const PartList = (props: PartListUI) => {
 
             <th className="table-head-item">URL</th>
 
+            <th className="table-head-item" />
+
           </tr>
         </thead>
 
         <tbody className="table-body">
-          {props.parts.length > 0 ? (
-            props.parts.map((part: PartUI, idx) => (
-              <PartsListRow
-                key={part.id}
-                part={part}
-                position={idx + 1}
-                handlePartRemove={props.handlePartRemove}
-                handlePartUpdateCount={props.handlePartUpdateCount}
-              />
-              )
-            )
-          ) : (
-            <tr className="table-row">
-              <td className="table-item" style={{ textAlign: 'center' }} colSpan={6}>There are no parts to show.</td>
-            </tr>
-          )
-        }
+
+          {props.parts.map((part: PartUI, idx) => (
+            <PartsListRow
+              key={part.id}
+              part={part}
+              position={idx + 1}
+              handlePartRemove={props.handlePartRemove}
+              handlePartUpdateCount={props.handlePartUpdateCount}
+            />
+          ))}
+
+
+
         </tbody>
-    </table>
-  )
+      </table>
+    )
+  }
+  else {
+    return (
+      <p>There are no parts to show.</p>
+    )
+  }
 }
