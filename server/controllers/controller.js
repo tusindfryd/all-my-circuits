@@ -55,11 +55,31 @@ exports.partsDelete = async (req, res) => {
       })
     })
     .catch(err => {
-      // send a error message in response
+      // send an error message in response
       res.json({
         message: `There was an error deleting ${req.body.name}: ${err}`
       })
     })
+}
+
+// change count of a part
+exports.partCountModify = async (req, res) => {
+  // find specific part in the database and change its count
+  knex('parts')
+  .where('id', req.body.id) // find correct record based on id
+  .update('count', req.body.count)
+  .then(() => {
+    // send a success message in response
+    res.json({
+      message: `Count of ${req.body.name} was updated.`
+    })
+  })
+  .catch(err => {
+    // send an error message in response
+    res.json({
+      message: `There was an error updating ${req.body.name} count: ${err}`
+    })
+  })
 }
 
 // remove all parts on the list

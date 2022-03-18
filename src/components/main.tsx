@@ -90,6 +90,20 @@ export const Main = () => {
             .catch(error => console.error(`There was an error removing ${name}: ${error}`))
     }
 
+    // update part count
+    const handlePartUpdateCount = (id: number, name: string, count: number) => {
+        // send PUT request to 'parts/update' endpoint
+        axios
+            .put('http://localhost:4001/parts/update', { id: id, count: count })
+            .then(() => {
+                console.log(`Count of ${name} updated.`)
+
+                // fetch all parts to refresh the parts on the part list
+                fetchParts()
+            })
+            .catch(error => console.error(`There was an error updating the count of ${name}: ${error}`))
+    }
+
     // reset part list (remove all parts)
     const handleListReset = () => {
         // send PUT request to 'parts/reset' endpoint
@@ -130,7 +144,7 @@ export const Main = () => {
             </div>
 
             {/* Render part list component */}
-            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} />
+            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount}/>
 
             {/* Show reset button if list contains at least one part */}
             {parts.length > 0 && (

@@ -11,6 +11,7 @@ interface PartsListRowUI {
         url: string;
     }
     handlePartRemove: (id: number, name: string) => void;
+    handlePartUpdateCount: (id: number, name: string, count: number) => void;
 }
 
 // create PartsListRow component
@@ -32,6 +33,18 @@ export const PartsListRow = (props: PartsListRowUI) => (
             {props.part.url}
         </td>
 
+        <td className="table-item">
+            <button
+                className="btn btn-plus"
+                onClick={() => props.handlePartUpdateCount(props.part.id, props.part.name, Number(props.part.count) + 1)}>
+                +
+            </button>
+            <button
+                className="btn btn-minus"
+                onClick={() => props.handlePartUpdateCount(props.part.id, props.part.name, Number(props.part.count) - 1)}>
+                -
+            </button>
+        </td>
         <td className="table-item">
             <button
                 className="btn btn-remove"
