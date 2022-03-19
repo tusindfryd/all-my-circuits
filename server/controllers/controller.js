@@ -26,7 +26,7 @@ exports.partsCreate = async (req, res) => {
     .insert({ // insert new record
       'name': req.body.name,
       'count': req.body.count,
-      'url': req.body.url
+      'notes': req.body.notes
     })
     .then(() => {
       // send a success message in response

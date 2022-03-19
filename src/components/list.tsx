@@ -12,7 +12,7 @@ interface PartUI {
   id: number;
   name: string;
   count: number;
-  url: string;
+  notes: string;
 }
 
 interface PartListUI {
@@ -27,7 +27,11 @@ export const PartList = (props: PartListUI) => {
   // show loading message
   if (props.loading) {
     return (
-      <p>Loading...</p>
+      <div className="d-flex justify-content-center m-5">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
     )
   }
   else if (props.parts.length > 0) {
@@ -41,9 +45,7 @@ export const PartList = (props: PartListUI) => {
 
             <th className="table-head-item">Count</th>
 
-            <th className="table-head-item" />
-
-            <th className="table-head-item">URL</th>
+            <th className="table-head-item">Notes</th>
 
             <th className="table-head-item" />
 
@@ -61,9 +63,6 @@ export const PartList = (props: PartListUI) => {
               handlePartUpdateCount={props.handlePartUpdateCount}
             />
           ))}
-
-
-
         </tbody>
       </table>
     )

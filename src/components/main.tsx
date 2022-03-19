@@ -8,12 +8,12 @@ import { PartList } from './list'
 // import styles
 import './../styles/styles.scss'
 
-// create Part component
+// create Main component
 export const Main = () => {
     // prepare states
     const [name, setName] = useState('')
     const [count, setCount] = useState('')
-    const [url, setURL] = useState('')
+    const [notes, setNotes] = useState('')
     const [parts, setParts] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -23,13 +23,15 @@ export const Main = () => {
     }, [])
 
     // fetch all parts
-    const fetchParts = async () => {
+    const fetchParts = async (keyword?: string) => {
         // send GET request to 'parts/all' endpoint
         axios
             .get('http://localhost:4001/parts/all')
             .then(response => {
                 // update the parts state
-                setParts(response.data)
+                keyword ? setParts(response.data.filter(
+                    (element: any) => element.name.includes(keyword)
+                )) : setParts(response.data)
 
                 // update loading state
                 setLoading(false)
@@ -41,7 +43,7 @@ export const Main = () => {
     const handleInputsReset = () => {
         setName('')
         setCount('')
-        setURL('')
+        setNotes('')
     }
 
     // create new part
@@ -51,7 +53,7 @@ export const Main = () => {
             .post('http://localhost:4001/parts/create', {
                 name: name,
                 count: count,
-                url: url
+                notes: notes
             })
             .then(res => {
                 console.log(res.data)
@@ -120,9 +122,9 @@ export const Main = () => {
     }
 
     return (
-        <main>
+        <main className="container-sm py-5">
             {/* form for creating new part */}
-            <form onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
+            <form className="container" onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
                 <div className="row">
                     <div className="col">
                         <fieldset>
@@ -133,17 +135,24 @@ export const Main = () => {
                     <div className="col col-3">
                         <fieldset>
                             <label className="form-label" htmlFor="count">Count:</label>
-                            <input className="form-control" type="number" min="1" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
+                            <input className="form-control" type="number" required min="1" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
                         </fieldset>
                     </div>
                 </div>
                 <fieldset>
-                    <label className="form-label" htmlFor="url">Octopart URL:</label>
-                    <input className="form-control" type="url" id="url" name="url" value={url} onChange={(e) => setURL(e.currentTarget.value)} />
+                    <label className="form-label" htmlFor="url">Notes:</label>
+                    <input className="form-control" type="text" id="notes" name="text" value={notes} onChange={(e) => setNotes(e.currentTarget.value)} />
                 </fieldset>
 
                 <button type="submit" className="my-3 btn btn-primary">Add the part</button>
 
+            </form>
+            <hr/>
+            <form className="container">
+                <fieldset>
+                    <label className="form-label" htmlFor="filter">Filter by name:</label>
+                    <input className="form-control" type="text" id="filter" name="filter" onChange={(e) => fetchParts(e.currentTarget.value)} />
+                </fieldset>
             </form>
 
             {/* render part list component */}

@@ -8,7 +8,7 @@ interface PartsListRowUI {
         id: number;
         name: string;
         count: number;
-        url: string;
+        notes: string;
     }
     handlePartRemove: (id: number, name: string) => void;
     handlePartUpdateCount: (id: number, name: string, count: number) => void;
@@ -27,9 +27,6 @@ export const PartsListRow = (props: PartsListRowUI) => (
 
         <td className="table-item">
             {props.part.count}
-        </td>
-
-        <td className="table-item">
             <button
                 className="btn-plus"
                 onClick={() => props.handlePartUpdateCount(props.part.id, props.part.name, Number(props.part.count) + 1)}>➕</button>
@@ -39,7 +36,20 @@ export const PartsListRow = (props: PartsListRowUI) => (
         </td>
 
         <td className="table-item">
-            {props.part.url}
+            <div className="mb-3 row">
+                {
+                    props.part.notes.split(",").map((note: string) => {
+                        return (
+                            <span key={note} className="badge bg-info col-auto">{note}
+                                <button type="button" className="btn-close" aria-label="Remove"></button>
+                            </span>
+                        )
+                    })
+                }
+                <div className="col-auto">
+                    <input className="form-control form-control-sm-1" type="text" id="notes" name="text" onChange={(e) => console.log(e.currentTarget.value)} />
+                </div>
+            </div>
         </td>
 
         <td className="table-item">

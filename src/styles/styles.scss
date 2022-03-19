@@ -1,27 +1,17 @@
 body {
-    width: 100vw;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
     main {
-        margin-top: 10vh;
-        min-width: 33vw;
-        padding: 20px;
-
-        @media (orientation: landscape) {
-            max-width: 33vw;
+        .badge {
+            font-weight: normal;
+            margin: 0 4px;
         }
-
         .btn-plus,
         .btn-minus,
         .btn-remove {
             background: unset;
-            outline: unset;
+            outline   : unset;
             box-shadow: unset;
-            border: none;
-            font-size: 85%;
+            border    : none;
+            font-size : 85%;
         }
     }
 }

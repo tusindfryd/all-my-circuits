@@ -21,14 +21,14 @@ knex.schema
   .then((exists) => {
     if (!exists) {
       // if no "parts" table exists
-      // create new, with "id", "name", "count", and "octopart url" columns
+      // create new, with "id", "name", "count", and "notes" columns
       // and use "id" as a primary identification
       // and increment "id" with every new record
       return knex.schema.createTable('parts', (table) => {
           table.increments('id').primary()
           table.string('name')
           table.string('count')
-          table.string('url')
+          table.string('notes')
         })
         .then(() => {
           // log success message
