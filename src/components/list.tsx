@@ -20,6 +20,7 @@ interface PartListUI {
   loading: boolean;
   handlePartRemove: (id: number, title: string) => void;
   handlePartUpdateCount: (id: number, name: string, count: number) => void;
+  handleNewNote: (id: number, note: string) => void;
 }
 
 // create PartList component
@@ -61,6 +62,7 @@ export const PartList = (props: PartListUI) => {
               position={idx + 1}
               handlePartRemove={props.handlePartRemove}
               handlePartUpdateCount={props.handlePartUpdateCount}
+              handleNewNote={props.handleNewNote}
             />
           ))}
         </tbody>

@@ -3,15 +3,26 @@ body {
         .badge {
             font-weight: normal;
             margin: 0 4px;
+            display: flex;
+            align-items: center;
         }
+
         .btn-plus,
         .btn-minus,
         .btn-remove {
             background: unset;
-            outline   : unset;
+            outline: unset;
             box-shadow: unset;
-            border    : none;
-            font-size : 85%;
+            border: none;
+            font-size: 85%;
         }
+
+        .btn-close {
+            height: unset;
+        }
+    }
+
+    input#notes {
+        font-size: 0.75em;
     }
 }

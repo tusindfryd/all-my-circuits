@@ -22,7 +22,7 @@ router.put('/delete', partsRoutes.partsDelete)
 
 // add route for PUT request to change count of a specific part
 // /update' translates to '/parts/update'
-router.put('/update', partsRoutes.partCountModify)
+router.put('/update', partsRoutes.partUpdate)
 
 // add route for PUT request to reset parts list
 // '/reset' translates to '/parts/reset'

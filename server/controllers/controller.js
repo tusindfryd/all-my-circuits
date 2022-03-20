@@ -1,22 +1,37 @@
 // import database
 const knex = require('./../db')
 
-// retrieve all parts
+// retrieve parts
 exports.partsAll = async (req, res) => {
-  // get all parts from database
-  knex
-    .select('*') // select all records
-    .from('parts') // from 'parts' table
-    .then(userData => {
-      // send parts extracted from database in response
-      res.json(userData)
-    })
-    .catch(err => {
-      // send an error message in response
-      res.json({
-        message: `There was an error retrieving parts: ${err}`
+  if (req.query.keyword) {
+    knex('parts')
+      .where('name', 'like', `%${String(req.query.keyword)}%`)
+      .then(parts => {
+        // send parts extracted from database in response
+        res.json(parts)
       })
-    })
+      .catch(err => {
+        // send an error message in response
+        res.json({
+          message: `There was an error retrieving parts: ${err}`
+        })
+      })
+  } else {
+    // get all parts from database
+    knex
+      .select('*') // select all records
+      .from('parts') // from 'parts' table
+      .then(parts => {
+        // send parts extracted from database in response
+        res.json(parts)
+      })
+      .catch(err => {
+        // send an error message in response
+        res.json({
+          message: `There was an error retrieving parts: ${err}`
+        })
+      })
+  }
 }
 
 // create new part
@@ -62,24 +77,70 @@ exports.partsDelete = async (req, res) => {
     })
 }
 
+exports.partUpdate = async (req, res) => {
+  if (req.body.type == "concat") {
+    knex
+      .select('*')
+      .from('parts')
+      .where('id', req.body.id)
+      .then((part) => {
+        var newValue = part[0].notes.concat(", ", req.body[req.body.fieldName])
+        knex("parts")
+          .where('id', req.body.id)
+          .update(req.body.fieldName, newValue)
+          .then(() => {
+            // send a success message in response
+            res.json({
+              message: `Element was updated.`
+            })
+          })
+          .catch(err => {
+            // send an error message in response
+            res.json({
+              message: `There was an error during update: ${err}`
+            })
+          })
+      })
+      .catch(err => {
+        // send an error message in response
+        res.json({
+          message: `There was an error during update: ${err}`
+        })
+      })
+
+  } else if (req.body.type == "overwrite") {
+    knex
+      .select('*')
+      .from('parts')
+      .where('id', req.body.id)
+      .update(req.body.fieldName, req.body[req.body.fieldName])
+      .then(() => {
+        // send a success message in response
+        res.json({
+          message: `Element was updated.`
+        })
+      })
+  }
+}
+
 // change count of a part
 exports.partCountModify = async (req, res) => {
   // find specific part in the database and change its count
   knex('parts')
-  .where('id', req.body.id) // find correct record based on id
-  .update('count', req.body.count)
-  .then(() => {
-    // send a success message in response
-    res.json({
-      message: `Count of ${req.body.name} was updated.`
+    .where('id', req.body.id) // find correct record based on id
+    .update('count', req.body.count)
+    .then(() => {
+      // send a success message in response
+      res.json({
+        message: `Count of ${req.body.name} was updated.`
+      })
     })
-  })
-  .catch(err => {
-    // send an error message in response
-    res.json({
-      message: `There was an error updating ${req.body.name} count: ${err}`
+    .catch(err => {
+      // send an error message in response
+      res.json({
+        message: `There was an error updating ${req.body.name} count: ${err}`
+      })
     })
-  })
 }
 
 // remove all parts on the list

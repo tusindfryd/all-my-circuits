@@ -24,14 +24,13 @@ export const Main = () => {
 
     // fetch all parts
     const fetchParts = async (keyword?: string) => {
+        keyword = keyword ? keyword : ""
         // send GET request to 'parts/all' endpoint
         axios
-            .get('http://localhost:4001/parts/all')
+            .get('http://localhost:4001/parts/all', { params: { keyword: keyword } })
             .then(response => {
                 // update the parts state
-                keyword ? setParts(response.data.filter(
-                    (element: any) => element.name.includes(keyword)
-                )) : setParts(response.data)
+                setParts(response.data)
 
                 // update loading state
                 setLoading(false)
@@ -97,7 +96,7 @@ export const Main = () => {
         if (count > 0) {
             // send PUT request to 'parts/update' endpoint
             axios
-                .put('http://localhost:4001/parts/update', { id: id, count: count })
+                .put('http://localhost:4001/parts/update', { id: id, count: count, fieldName: "count", type: "overwrite" })
                 .then(() => {
                     console.log(`Count of ${name} updated.`)
 
@@ -108,6 +107,19 @@ export const Main = () => {
         } else {
             handlePartRemove(id, name);
         }
+    }
+
+    const handleNewNote = (id: number, note: string) => {
+        // send PUT request to 'parts/update' endpoint
+        axios
+            .put('http://localhost:4001/parts/update', { id: id, notes: note, fieldName: "notes", type: "concat" })
+            .then(() => {
+                console.log(`Note updated.`)
+
+                // fetch all parts to refresh the parts on the part list
+                fetchParts()
+            })
+            .catch(error => console.error(`There was an error updating the count of ${name}: ${error}`))
     }
 
     // reset part list (remove all parts)
@@ -141,22 +153,22 @@ export const Main = () => {
                 </div>
                 <fieldset>
                     <label className="form-label" htmlFor="url">Notes:</label>
-                    <input className="form-control" type="text" id="notes" name="text" value={notes} onChange={(e) => setNotes(e.currentTarget.value)} />
+                    <input className="form-control" type="text" id="notes" name="text" value={notes} onChange={(e: any) => setNotes(e.currentTarget.value)} />
                 </fieldset>
 
                 <button type="submit" className="my-3 btn btn-primary">Add the part</button>
 
             </form>
-            <hr/>
-            <form className="container">
+            <hr />
+            <form className="container" onSubmit={(e) => e.preventDefault()}>
                 <fieldset>
-                    <label className="form-label" htmlFor="filter">Filter by name:</label>
-                    <input className="form-control" type="text" id="filter" name="filter" onChange={(e) => fetchParts(e.currentTarget.value)} />
+                    <label className="form-label" htmlFor="keyword">Filter by name:</label>
+                    <input className="form-control" type="text" id="keyword" name="keyword" onChange={(e) => fetchParts(e.currentTarget.value)} />
                 </fieldset>
             </form>
 
             {/* render part list component */}
-            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} />
+            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} handleNewNote={handleNewNote} />
 
             {/* show reset button if list contains at least one part */}
             {parts.length > 0 && (

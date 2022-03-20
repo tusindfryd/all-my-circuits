@@ -12,6 +12,7 @@ interface PartsListRowUI {
     }
     handlePartRemove: (id: number, name: string) => void;
     handlePartUpdateCount: (id: number, name: string, count: number) => void;
+    handleNewNote: (id: number, note: string) => void;
 }
 
 // create PartsListRow component
@@ -36,18 +37,28 @@ export const PartsListRow = (props: PartsListRowUI) => (
         </td>
 
         <td className="table-item">
-            <div className="mb-3 row">
+            <div className="row">
                 {
                     props.part.notes.split(",").map((note: string) => {
                         return (
                             <span key={note} className="badge bg-info col-auto">{note}
-                                <button type="button" className="btn-close" aria-label="Remove"></button>
+                                <button type="button" className="btn-close btn-close-white" aria-label="Close"></button>
                             </span>
                         )
                     })
                 }
                 <div className="col-auto">
-                    <input className="form-control form-control-sm-1" type="text" id="notes" name="text" onChange={(e) => console.log(e.currentTarget.value)} />
+                    <input className="form-control form-control-sm-1"
+                        type="text"
+                        id="notes"
+                        name="text"
+                        onKeyDown={
+                            (e: any) => {
+                                if (e.key === "Enter") {
+                                    props.handleNewNote(props.part.id, String(e.currentTarget.value))
+                                }
+                            }
+                        } />
                 </div>
             </div>
         </td>
