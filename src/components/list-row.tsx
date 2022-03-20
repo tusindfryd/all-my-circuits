@@ -13,6 +13,7 @@ interface PartsListRowUI {
     handlePartRemove: (id: number, name: string) => void;
     handlePartUpdateCount: (id: number, name: string, count: number) => void;
     handleNewNote: (id: number, note: string) => void;
+    handleNoteRemoval: (id: number, note: string) => void;
 }
 
 // create PartsListRow component
@@ -39,13 +40,16 @@ export const PartsListRow = (props: PartsListRowUI) => (
         <td className="table-item">
             <div className="row">
                 {
-                    props.part.notes.split(",").map((note: string) => {
-                        return (
-                            <span key={note} className="badge bg-info col-auto">{note}
-                                <button type="button" className="btn-close btn-close-white" aria-label="Close"></button>
-                            </span>
-                        )
-                    })
+                    props.part.notes
+                        .split(",")
+                        .filter((note: string) => note !== "")
+                        .map((note: string) => {
+                            return (
+                                <span key={note} className="badge bg-info col-auto">{note}
+                                    <button type="button" className="btn-close btn-close-white" aria-label="Remove" onClick={() => props.handleNoteRemoval(props.part.id, note)}></button>
+                                </span>
+                            )
+                        })
                 }
                 <div className="col-auto">
                     <input className="form-control form-control-sm-1"

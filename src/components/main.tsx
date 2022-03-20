@@ -109,6 +109,19 @@ export const Main = () => {
         }
     }
 
+    // remove note
+    const handleNoteRemoval = (id: number, note: string) => {
+        axios
+            .put('http://localhost:4001/parts/update', { id: id, notes: note, fieldName: "notes", type: "cut" })
+            .then(() => {
+                console.log(`Note removed.`)
+
+                // fetch all parts to refresh the parts on the part list
+                fetchParts()
+            })
+            .catch(error => console.error(`There was an error removing the note: ${error}`))
+    }
+
     const handleNewNote = (id: number, note: string) => {
         // send PUT request to 'parts/update' endpoint
         axios
@@ -168,7 +181,7 @@ export const Main = () => {
             </form>
 
             {/* render part list component */}
-            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} handleNewNote={handleNewNote} />
+            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} handleNewNote={handleNewNote} handleNoteRemoval={handleNoteRemoval} />
 
             {/* show reset button if list contains at least one part */}
             {parts.length > 0 && (

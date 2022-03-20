@@ -46,7 +46,7 @@ exports.partsCreate = async (req, res) => {
     .then(() => {
       // send a success message in response
       res.json({
-        message: `Part \'${req.body.name}\' created.`
+        message: `Part ${req.body.name} created.`
       })
     })
     .catch(err => {
@@ -84,7 +84,7 @@ exports.partUpdate = async (req, res) => {
       .from('parts')
       .where('id', req.body.id)
       .then((part) => {
-        var newValue = part[0].notes.concat(", ", req.body[req.body.fieldName])
+        var newValue = (part[0])[req.body.fieldName].concat(", ", req.body[req.body.fieldName])
         knex("parts")
           .where('id', req.body.id)
           .update(req.body.fieldName, newValue)
@@ -118,6 +118,36 @@ exports.partUpdate = async (req, res) => {
         // send a success message in response
         res.json({
           message: `Element was updated.`
+        })
+      })
+  } else if (req.body.type == "cut") {
+    knex
+      .select('*')
+      .from('parts')
+      .where('id', req.body.id)
+      .then((part) => {
+        const regex = new RegExp(`,*${req.body[req.body.fieldName]},*`)
+        var newValue = (part[0])[req.body.fieldName].replace(regex, '')
+        knex("parts")
+          .where('id', req.body.id)
+          .update(req.body.fieldName, newValue)
+          .then(() => {
+            // send a success message in response
+            res.json({
+              message: `Element was updated.`
+            })
+          })
+          .catch(err => {
+            // send an error message in response
+            res.json({
+              message: `There was an error during update: ${err}`
+            })
+          })
+      })
+      .catch(err => {
+        // send an error message in response
+        res.json({
+          message: `There was an error during update: ${err}`
         })
       })
   }
