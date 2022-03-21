@@ -1,6 +1,8 @@
 // import dependencies
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import "bootstrap-icons/font/bootstrap-icons.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import components
 import { PartList } from './list'
@@ -55,8 +57,6 @@ export const Main = () => {
                 notes: notes
             })
             .then(res => {
-                console.log(res.data)
-
                 // fetch all parts to refresh the parts on the part list
                 fetchParts()
             })
@@ -147,46 +147,48 @@ export const Main = () => {
     }
 
     return (
-        <main className="container-sm py-5">
-            {/* form for creating new part */}
-            <form className="container" onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
-                <div className="row">
-                    <div className="col">
-                        <fieldset>
-                            <label className="form-label" htmlFor="name">Name:</label>
-                            <input className="form-control" type="text" required id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
-                        </fieldset>
+        <div>
+            <main className="container-sm border rounded p-5 my-5">
+                {/* form for creating new part */}
+                <form className="container" onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
+                    <div className="row">
+                        <div className="col">
+                            <fieldset>
+                                <label className="form-label" htmlFor="name">Name:</label>
+                                <input className="form-control" type="text" required id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
+                            </fieldset>
+                        </div>
+                        <div className="col col-3">
+                            <fieldset>
+                                <label className="form-label" htmlFor="count">Count:</label>
+                                <input className="form-control" type="number" required min="1" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
+                            </fieldset>
+                        </div>
                     </div>
-                    <div className="col col-3">
-                        <fieldset>
-                            <label className="form-label" htmlFor="count">Count:</label>
-                            <input className="form-control" type="number" required min="1" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
-                        </fieldset>
-                    </div>
-                </div>
-                <fieldset>
-                    <label className="form-label" htmlFor="url">Notes:</label>
-                    <input className="form-control" type="text" id="notes" name="text" value={notes} onChange={(e: any) => setNotes(e.currentTarget.value)} />
-                </fieldset>
+                    <fieldset>
+                        <label className="form-label" htmlFor="url">Notes:</label>
+                        <input className="form-control" type="text" id="notes" name="text" value={notes} onChange={(e: any) => setNotes(e.currentTarget.value)} />
+                    </fieldset>
 
-                <button type="submit" className="my-3 btn btn-primary">Add the part</button>
+                    <button type="submit" className="my-3 btn btn-primary">Add the part</button>
 
-            </form>
-            <hr />
-            <form className="container" onSubmit={(e) => e.preventDefault()}>
-                <fieldset>
-                    <label className="form-label" htmlFor="keyword">Filter by name:</label>
-                    <input className="form-control" type="text" id="keyword" name="keyword" onChange={(e) => fetchParts(e.currentTarget.value)} />
-                </fieldset>
-            </form>
+                </form>
+                <hr />
+                <form className="container" onSubmit={(e) => e.preventDefault()}>
+                    <fieldset>
+                        <label className="form-label" htmlFor="keyword">Filter by name:</label>
+                        <input className="form-control" type="text" id="keyword" name="keyword" onChange={(e) => fetchParts(e.currentTarget.value)} />
+                    </fieldset>
+                </form>
 
-            {/* render part list component */}
-            <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} handleNewNote={handleNewNote} handleNoteRemoval={handleNoteRemoval} />
+                {/* render part list component */}
+                <PartList parts={parts} loading={loading} handlePartRemove={handlePartRemove} handlePartUpdateCount={handlePartUpdateCount} handleNewNote={handleNewNote} handleNoteRemoval={handleNoteRemoval} />
 
-            {/* show reset button if list contains at least one part */}
-            {parts.length > 0 && (
-                <button className="btn btn-warning" onClick={handleListReset}>Remove all elements</button>
-            )}
-        </main>
+                {/* show reset button if list contains at least one part */}
+                {parts.length > 0 && (
+                    <button className="btn btn-warning" onClick={handleListReset}>Remove all elements</button>
+                )}
+            </main>
+        </div>
     )
 }

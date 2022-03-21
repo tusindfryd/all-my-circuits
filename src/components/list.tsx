@@ -1,5 +1,7 @@
 // import dependencies
 import React from 'react'
+import "bootstrap-icons/font/bootstrap-icons.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import components
 import { PartsListRow } from './list-row'
@@ -41,7 +43,7 @@ export const PartList = (props: PartListUI) => {
       <table className="table table-hover">
         <thead>
           <tr>
-            <th className="table-head-item"> # </th>
+            <th className="table-head-item"><i className="bi bi-hash"></i></th>
 
             <th className="table-head-item">Name</th>
 
