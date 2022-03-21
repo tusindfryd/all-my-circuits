@@ -1,7 +1,7 @@
 // import dependencies
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import "bootstrap-icons/font/bootstrap-icons.css"
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import components
@@ -150,23 +150,23 @@ export const Main = () => {
         <div>
             <main className="container-sm border rounded p-5 my-5">
                 {/* form for creating new part */}
-                <form className="container" onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
+                <form className="container form-new-part" onSubmit={(event) => { handlePartSubmit(); event.preventDefault(); }}>
                     <div className="row">
                         <div className="col">
-                            <fieldset>
+                            <fieldset id="form-name">
                                 <label className="form-label" htmlFor="name">Name:</label>
                                 <input className="form-control" type="text" required id="name" name="name" value={name} onChange={(e) => setName(e.currentTarget.value)} />
                             </fieldset>
                         </div>
                         <div className="col col-3">
-                            <fieldset>
+                            <fieldset id="form-count">
                                 <label className="form-label" htmlFor="count">Count:</label>
                                 <input className="form-control" type="number" required min="1" step="1" id="count" name="count" value={count} onChange={(e) => setCount(e.currentTarget.value)} />
                             </fieldset>
                         </div>
                     </div>
-                    <fieldset>
-                        <label className="form-label" htmlFor="url">Notes:</label>
+                    <fieldset id="form-notes">
+                        <label className="form-label" htmlFor="notes">Notes:</label>
                         <input className="form-control" type="text" id="notes" name="text" value={notes} onChange={(e: any) => setNotes(e.currentTarget.value)} />
                     </fieldset>
 
