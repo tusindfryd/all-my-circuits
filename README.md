@@ -4,5 +4,5 @@
 
 ![Screenshot](/sc.png)
 
-####Installation
+#### Installation
 Clone the repo, then run `npm install` and `npm start`.
